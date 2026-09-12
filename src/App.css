@@ -1,0 +1,108 @@
+:root {
+  --bg-color: #0d0914;
+  --lotus-color: #ff77a8;
+  --lotus-glow: rgba(255, 119, 168, 0.6);
+  --msg-color: #ffc2da;
+  --final-color: #ff94c2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  font-family: 'Fira Code', 'Courier New', monospace;
+  overflow-x: hidden;
+}
+
+.terminal-screen {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  background: radial-gradient(circle at center, #1a0f28 0%, #0d0914 100%);
+  text-align: center;
+}
+
+.lotus-wrapper {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lotus-container {
+  color: var(--lotus-color);
+  text-shadow: 0 0 12px var(--lotus-glow), 0 0 24px rgba(255, 119, 168, 0.3);
+  font-family: monospace;
+  font-size: clamp(10px, 2.8vw, 22px);
+  line-height: 1.2;
+  white-space: pre;
+  display: inline-block;
+}
+
+.lotus-line {
+  min-height: 1.2em;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  width: 100%;
+  max-width: 650px;
+  padding: 0 10px;
+}
+
+.poem-text {
+  font-size: clamp(14px, 4vw, 22px);
+  color: var(--msg-color);
+  text-shadow: 0 0 10px rgba(255, 194, 218, 0.4);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.final-text {
+  font-size: clamp(15px, 4.2vw, 24px);
+  color: var(--final-color);
+  text-shadow: 0 0 12px rgba(255, 148, 194, 0.5);
+  font-weight: 600;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.cursor {
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--lotus-color);
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@media (max-width: 480px) {
+  .terminal-screen {
+    padding: 1rem 0.5rem;
+  }
+  
+  .lotus-container {
+    font-size: clamp(8px, 2.7vw, 12px);
+  }
+}
