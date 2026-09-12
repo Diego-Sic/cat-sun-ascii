@@ -27,7 +27,7 @@ html, body, #root {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem 1rem;
+  padding: 1rem 0.5rem;
   background: radial-gradient(circle at center, #1a0f28 0%, #0d0914 100%);
   text-align: center;
 }
@@ -38,7 +38,7 @@ html, body, #root {
   overflow-x: auto;
   display: flex;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -46,20 +46,20 @@ html, body, #root {
   color: var(--lotus-color);
   text-shadow: 0 0 12px var(--lotus-glow), 0 0 24px rgba(255, 119, 168, 0.3);
   font-family: monospace;
-  font-size: clamp(10px, 2.8vw, 22px);
-  line-height: 1.2;
+  font-size: clamp(8px, 1.8vw, 15px);
+  line-height: 1.15;
   white-space: pre;
   display: inline-block;
 }
 
 .lotus-line {
-  min-height: 1.2em;
+  min-height: 1.15em;
 }
 
 .message-container {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.6rem;
   align-items: center;
   width: 100%;
   max-width: 650px;
@@ -67,7 +67,7 @@ html, body, #root {
 }
 
 .poem-text {
-  font-size: clamp(14px, 4vw, 22px);
+  font-size: clamp(13px, 3.5vw, 20px);
   color: var(--msg-color);
   text-shadow: 0 0 10px rgba(255, 194, 218, 0.4);
   font-weight: 400;
@@ -77,7 +77,7 @@ html, body, #root {
 }
 
 .final-text {
-  font-size: clamp(15px, 4.2vw, 24px);
+  font-size: clamp(14px, 3.8vw, 22px);
   color: var(--final-color);
   text-shadow: 0 0 12px rgba(255, 148, 194, 0.5);
   font-weight: 600;
@@ -99,10 +99,10 @@ html, body, #root {
 
 @media (max-width: 480px) {
   .terminal-screen {
-    padding: 1rem 0.5rem;
+    padding: 0.75rem 0.25rem;
   }
   
   .lotus-container {
-    font-size: clamp(8px, 2.7vw, 12px);
+    font-size: clamp(6px, 2.2vw, 10px);
   }
 }
