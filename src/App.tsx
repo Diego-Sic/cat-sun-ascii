@@ -1,122 +1,64 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 
-const LOTUS_ART = [
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠴⠂⠀⠐⠒⠤⢀⣀⢀⡤⢤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠋⢀⡄⠀⠀⠀⣠⠊⠀⠀⠀⠀⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⠃⠀⡜⠀⠀⠀⢰⠁⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠃⠀⢀⠃⠀⠀⠀⡇⠀⡆⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡌⠀⠀⢸⠀⠀⠀⢠⠀⢰⢀⠀⠀⠀⠀⠘⠀⠀⡠⠐⠈⠉⠀⠀⠈⠉⠐⢤⡀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⣀⡀⠀⢠⡇⠀⠀⢸⠀⠀⠀⢸⠁⡜⠸⠀⠀⠀⠀⢸⡠⠊⠀⠀⠀⠀⠀⠀⢀⣀⣀⠀⠙⡄⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⣔⡉⠴⠆⣠⡤⣈⠑⢺⠀⠀⠀⢈⡀⠀⠀⡘⠀⡇⡄⠀⠀⠀⠀⢸⠀⠀⠀⠀⣀⣔⠮⠝⠒⠊⠉⠛⢳⡃⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⢠⠃⠀⠀⠀⠰⣏⢻⠋⠾⡆⠀⠀⠹⣌⢢⣸⣏⡆⡇⡇⠀⠀⠀⠀⡌⠀⢀⣴⡪⠋⠁⠀⢀⠤⠒⠉⡡⠄⠚⠒⣆",
-  "⠀⠀⠀⠀⠀⠀⠀⣠⠏⠒⠒⠠⢤⣀⠈⠚⢧⣄⢣⠀⢀⣀⠈⢻⡃⠘⡇⣇⠇⠀⠀⠀⢠⠃⠀⡩⠋⠀⠀⡠⠚⠁⠀⣠⠚⠢⠤⠤⠒⠁",
-  "⠀⠀⠀⢰⡲⣒⠈⠑⠒⠂⠤⠄⢠⠤⣍⠒⠤⡙⢿⣆⠘⡌⠉⣷⢻⡀⣿⠸⠁⠀⠀⠀⡌⢀⠞⠀⠀⢀⠎⠀⠀⢀⠞⠁⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠉⠒⠷⢆⠀⠀⠀⠀⠀⠓⠶⠵⢤⣈⡑⠝⢷⣽⡄⢿⣟⣷⢻⠀⠀⠀⡠⠎⣀⠬⠤⠤⢄⡀⠀⢀⠃⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠑⣤⡠⠔⠒⣒⣀⡒⠒⢏⣻⣷⣦⣽⣿⣎⢿⡝⣿⣧⠀⡜⡵⠋⠀⠀⠀⠀⠀⠈⠙⢍⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⢀⠤⠒⢉⡡⠔⠚⠉⠁⠀⠀⠀⠈⠉⠙⠀⠉⠛⠿⣿⣧⣿⣜⣿⣦⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⢀⠖⠁⣠⠔⠉⠀⠀⠀⠀⠄⠐⣒⠬⠭⠉⠉⠤⠴⠮⣿⣿⣿⣿⡿⣇⣤⣄⣀⣀⠀⠀⠠⠤⠄⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⡰⠁⢀⠖⠁⠀⠀⠀⠀⡠⠔⠊⠉⠀⠀⠀⢀⣀⠤⠐⠒⠂⢰⠏⠓⠓⢻⢻⠋⠥⣒⠤⣉⠁⠒⠤⣀⠀⠀⢣⡀⠀⠀⠀⠀⠀⠀⠀",
-  "⢀⠇⣠⠇⠀⠀⠀⠀⡠⠞⠁⠀⠀⠀⣀⠤⠖⠈⠁⠀⠀⠀⠀⠀⡀⠀⠀⠀⠘⡆⢣⠀⠀⠑⢦⡑⠦⡀⠀⠁⠀⠀⠳⡄⠀⠀⠀⠀⠀⠀",
-  "⠸⣰⠁⠀⠀⢀⡴⠋⠀⠀⠀⡠⠔⠋⠀⠀⠀⠀⠀⠀⠀⠀⢀⠻⡀⠀⠀⠀⢱⠀⠱⡀⠀⠀⠘⢦⡈⠢⡀⠀⠀⠀⠘⣆⠀⠀⠀⠀⠀",
-  "⠀⢇⠀⠀⡠⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡴⠋⠀⢠⣷⠤⣀⡀⠀⢣⣀⡈⠢⡀⠀⠀⠙⠢⣈⠓⢄⠀⠀⠘⡀⠀⠀⠀⠀",
-  "⠀⠸⠀⡰⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⡤⢲⡾⠋⡘⠀⠀⢀⢷⠁⠀⠀⢸⠉⠁⠀⠉⠉⠐⠢⢄⠀⠀⠈⠑⠢⠭⠂⢠⠇⠀⠀⠀⠀",
-  "⠀⢰⢾⣡⠞⠉⠉⠉⠉⠉⠉⠉⠉⠀⠀⡌⠀⠾⠁⢠⠁⠀⠀⡜⡆⠀⠀⢀⠇⠀⠀⠀⠀⠀⠀⠀⠀⠉⠒⠤⣀⡀⠀⣀⣸⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡀⢸⡇⠀⢸⠀⠀⠀⡇⡇⠀⢀⠎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠁⠈⠀⠀⢸⠀⠀⠀⡇⠇⠀⡌⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠄⠀⠘⡀⠀⠀⡇⠀⢰⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠱⡄⠀⠀⠀⢣⡀⠀⠸⠀⡟⠓⢦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⣀⠀⠀⠑⠂⣀⣃⢳⡀⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠒⠒⠋⠁⠀⠙⠽⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+const CAT_FRAME_1 = [
+  " /\\     /\\",
+  "{  `---'  }",
+  "{  O   O  }",
+  "~~>  V  <~~",
+  " \\  \\|/  /",
+  "  `-----'____",
+  "  /     \\    \\_",
+  " {       }\\  )_\\_   _",
+  " |  \\_/  |/ /  \\_\\_/ )",
+  "  \\__/  /(_/     \\__/",
+  "    (__/"
 ];
 
-const MESSAGES = [
-  "El sol te vio y guardó su pincel, porque tus ojos pintan el paisaje mejor que él.",
-  "Xime, (que no me llevó al concierto) :)))))"
+const CAT_FRAME_2 = [
+  " /\\     /\\",
+  "{  `---'  }",
+  "{  O   O  }",
+  "~~>  V  <~~",
+  " \\  \\|/  /",
+  "  `-----'__",
+  "  /     \\  `^_",
+  " {       }\\ |\\_\\_   W",
+  " |  \\_/  |/ /  \\_\\_( )",
+  "  \\__/  /(_E     \\__/",
+  "    (  /",
+  "     MM"
 ];
 
 export function App() {
-  const [lotusLines, setLotusLines] = useState<string[]>([]);
-  const [message1, setMessage1] = useState<string>('');
-  const [message2, setMessage2] = useState<string>('');
+  const [frameIndex, setFrameIndex] = useState(0);
 
   useEffect(() => {
-    let lineIdx = 0;
-    let charIdx = 0;
-    const currentLotus: string[] = Array(LOTUS_ART.length).fill("");
+    const interval = setInterval(() => {
+      setFrameIndex((prev) => (prev === 0 ? 1 : 0));
+    }, 500);
 
-    const animateLotus = () => {
-      if (lineIdx >= LOTUS_ART.length) {
-        setTimeout(animateMessage1, 300);
-        return;
-      }
-
-      const fullLine = LOTUS_ART[lineIdx];
-      if (charIdx <= fullLine.length) {
-        currentLotus[lineIdx] = fullLine.substring(0, charIdx);
-        setLotusLines([...currentLotus]);
-        charIdx += 4;
-        setTimeout(animateLotus, 8);
-      } else {
-        currentLotus[lineIdx] = fullLine;
-        setLotusLines([...currentLotus]);
-        lineIdx++;
-        charIdx = 0;
-        setTimeout(animateLotus, 15);
-      }
-    };
-
-    const animateMessage1 = () => {
-      let idx = 0;
-      const target = MESSAGES[0];
-      const type = () => {
-        if (idx <= target.length) {
-          setMessage1(target.substring(0, idx));
-          idx++;
-          setTimeout(type, 40);
-        } else {
-          setTimeout(animateMessage2, 400);
-        }
-      };
-      type();
-    };
-
-    const animateMessage2 = () => {
-      let idx = 0;
-      const target = MESSAGES[1];
-      const type = () => {
-        if (idx <= target.length) {
-          setMessage2(target.substring(0, idx));
-          idx++;
-          setTimeout(type, 40);
-        }
-      };
-      type();
-    };
-
-    animateLotus();
+    return () => clearInterval(interval);
   }, []);
+
+  const currentFrame = frameIndex === 0 ? CAT_FRAME_1 : CAT_FRAME_2;
 
   return (
     <div className="terminal-screen">
       <div className="lotus-wrapper">
-        <div className="lotus-container">
-          {lotusLines.map((line, idx) => (
-            <div key={idx} className="lotus-line">{line}</div>
-          ))}
-        </div>
+        <pre className="lotus-container">
+          {currentFrame.join('\n')}
+        </pre>
       </div>
-      
+
       <div className="message-container">
-        {message1 && <div className="poem-text">{message1}</div>}
-        {message2 && (
-          <div className="final-text">
-            {message2} <span className="cursor">█</span>
-          </div>
-        )}
+        <div className="final-text">
+          thanks Valentina for the pictures
+        </div>
       </div>
     </div>
   );
 }
 
 export default App;
+
