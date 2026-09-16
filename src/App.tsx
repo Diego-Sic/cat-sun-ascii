@@ -22,11 +22,13 @@ const CAT_FRAME_3 = [
 
 const POEM_LINE_1 = "Hoy el sol se escondió y no quiso salir,";
 const POEM_LINE_2 = "te vio despertar y le dio miedo de morir.";
+const POEM_DEDICATION = "Para Michy <3";
 
 export function App() {
   const [frameIndex, setFrameIndex] = useState(0);
   const [displayedLine1, setDisplayedLine1] = useState('');
   const [displayedLine2, setDisplayedLine2] = useState('');
+  const [displayedDedication, setDisplayedDedication] = useState('');
   const [showHearts, setShowHearts] = useState(false);
 
   // Animate ASCII Cat frames switching
@@ -37,10 +39,11 @@ export function App() {
     return () => clearInterval(catInterval);
   }, []);
 
-  // Typewriter effect for the Spanish quote
+  // Typewriter effect for the Spanish quote and dedication
   useEffect(() => {
     let idx1 = 0;
     let idx2 = 0;
+    let idx3 = 0;
 
     const typeLine1 = () => {
       if (idx1 <= POEM_LINE_1.length) {
@@ -57,6 +60,16 @@ export function App() {
         setDisplayedLine2(POEM_LINE_2.substring(0, idx2));
         idx2++;
         setTimeout(typeLine2, 45);
+      } else {
+        setTimeout(typeDedication, 400);
+      }
+    };
+
+    const typeDedication = () => {
+      if (idx3 <= POEM_DEDICATION.length) {
+        setDisplayedDedication(POEM_DEDICATION.substring(0, idx3));
+        idx3++;
+        setTimeout(typeDedication, 50);
       } else {
         setShowHearts(true);
       }
@@ -90,7 +103,12 @@ export function App() {
         )}
         {displayedLine2 && (
           <div className="poem-line poem-line-2">
-            {displayedLine2} <span className="cursor">█</span>
+            {displayedLine2}
+          </div>
+        )}
+        {displayedDedication && (
+          <div className="poem-dedication">
+            {displayedDedication} <span className="cursor">█</span>
           </div>
         )}
         {showHearts && (

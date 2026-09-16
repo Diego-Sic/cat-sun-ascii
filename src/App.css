@@ -78,6 +78,14 @@ html, body, #root {
   text-shadow: 0 0 14px rgba(255, 148, 194, 0.6);
 }
 
+.poem-dedication {
+  font-size: clamp(18px, 4.5vw, 28px);
+  color: var(--highlight-color);
+  font-weight: 700;
+  text-shadow: 0 0 16px rgba(255, 209, 102, 0.7);
+  margin-top: 0.5rem;
+}
+
 .cursor {
   display: inline-block;
   margin-left: 4px;
