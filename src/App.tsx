@@ -113,7 +113,7 @@ export function App() {
         )}
         {showHearts && (
           <div className="sparkles">
-            <span>✨</span> <span>☀️</span> <span>💖</span> <span>🐱</span> <span>✨</span>
+            <span>+</span> <span>*</span> <span>&lt;3</span> <span>*</span> <span>+</span>
           </div>
         )}
       </div>
